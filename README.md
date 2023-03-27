@@ -6,7 +6,6 @@ Steps to deploy:
 
 ```bash
 1. npm install
-# or
 2. npm run dev
 ```
 
