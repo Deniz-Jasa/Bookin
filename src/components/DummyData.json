@@ -1,0 +1,38 @@
+[
+    {
+        "name": "Trump Towers",
+        "location": "New York City, NY",
+        "ratePerNight": 100,
+        "imageUrl": "https://assets.trump.com/website/business/TRUMPTOWERNY_Entrance_2.jpg"
+    },
+    {
+        "name": "Hilton Gardens",
+        "location": "San Francisco, CA",
+        "ratePerNight": 150,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/f/fe/Hilton_San_Francisco_and_Towers.jpg"
+    },
+    {
+        "name": "Caesars Palace",
+        "location": "Las Vegas, NV",
+        "ratePerNight": 350,
+        "imageUrl": "https://media-magazine.trivago.com/wp-content/uploads/2019/08/22111257/las-vegas-strip-hotels.jpeg"
+    },
+    {
+        "name": "The Beverly Hills Hotel",
+        "location": "Los Angeles, CA",
+        "ratePerNight": 200,
+        "imageUrl": "https://prenohq.com/wp-content/uploads/2017/05/retractable-canopies-beverly-hills-hotel.jpeg.webp"
+    },
+    {
+        "name": "Belmond Copacabana Palace",
+        "location": "Rio de Janeiro, BZ",
+        "ratePerNight": 450,
+        "imageUrl": "https://prenohq.com/wp-content/uploads/2017/05/Belmond-Copacabana-Palace-1.jpg.webp"
+    },
+    {
+        "name": "Taj Mahal Palace",
+        "location": "Mumbai, ID",
+        "ratePerNight": 350,
+        "imageUrl": "https://prenohq.com/wp-content/uploads/2017/05/1539694286858-Taj-Mumbai-If-These-Walls-Could-Talk-7-of-12.jpeg.webp"
+    }
+]
