@@ -3,12 +3,13 @@ import Navbar from '../components/NavbarFull'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import HotelGallery from '@/components/HotelGallery'
 
-export default function Home() {
+
+export default function HomePage() {
 
   return (
     <>
       <Head>
-        <title>Blockin - Compare Hundreds of Hotels!</title>
+        <title>Blockin - Compare Hundreds of Hotel Results!</title>
       </Head>
 
       <Navbar />

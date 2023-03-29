@@ -1,15 +1,17 @@
 import { Box, Card, CardContent, CardMedia, Typography } from '@mui/material';
+import { MouseEventHandler } from 'react';
 
 type HotelCardProps = {
+  onClick?: MouseEventHandler<HTMLDivElement>;
   imageUrl: string;
   hotelName: string;
   location: string;
   ratePerNight: number;
 };
 
-const HotelCard = ({ imageUrl, hotelName, location, ratePerNight }: HotelCardProps) => {
+const HotelCard = ({ imageUrl, hotelName, location, ratePerNight, onClick }: HotelCardProps) => {
   return (
-    <Box sx={{ border: '0px solid #ccc', borderRadius: '0px', p: 2 }}>
+    <Box sx={{ border: '0px solid #ccc', borderRadius: '0px', p: 2, cursor: 'pointer' }} onClick={onClick}>
       <Card>
         <CardMedia component="img" image={imageUrl} alt={hotelName} />
         <CardContent>

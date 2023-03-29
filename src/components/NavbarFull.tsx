@@ -39,7 +39,7 @@ function ResponsiveAppBar() {
 
   return (
     <AppBar position="static" sx={{ backgroundColor: 'white' }}>
-      <Container maxWidth="xl">
+      <Container maxWidth="lg">
         <Toolbar disableGutters>
           <Typography
             variant="h6"
@@ -59,7 +59,7 @@ function ResponsiveAppBar() {
               textDecoration: 'none',
             }}
           >
-           <img src={logo.src} width="9%" alt="BookIn" />
+           <img src={logo.src} width="10%" alt="BookIn" />
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
