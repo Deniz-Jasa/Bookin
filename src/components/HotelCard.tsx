@@ -3,23 +3,24 @@ import { MouseEventHandler } from 'react';
 
 type HotelCardProps = {
   onClick?: MouseEventHandler<HTMLDivElement>;
-  imageUrl: string;
+  imageurl: string;
   hotelName: string;
-  location: string;
+  city: string;
+  state: string;
   ratePerNight: number;
 };
 
-const HotelCard = ({ imageUrl, hotelName, location, ratePerNight, onClick }: HotelCardProps) => {
+const HotelCard = ({ imageurl, hotelName, city, state, ratePerNight, onClick }: HotelCardProps) => {
   return (
     <Box sx={{ border: '0px solid #ccc', borderRadius: '0px', p: 2, cursor: 'pointer' }} onClick={onClick}>
       <Card>
-        <CardMedia component="img" image={imageUrl} alt={hotelName} />
+        <CardMedia component="img" image={imageurl} alt={hotelName} sx={{ width: '400px', height: '250px' }} />
         <CardContent>
           <Typography variant="h5" component="h2">
             {hotelName}
           </Typography>
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            {location}
+            {city}, {state}
           </Typography>
           <Typography variant="body2" component="p">
             {`$${ratePerNight} per night`}

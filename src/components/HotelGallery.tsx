@@ -1,34 +1,15 @@
-import HotelCard from "../components/HotelCard";
 import { Container, Grid } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import HotelCard from "../components/HotelCard";
 import Filter from "../components/Filter";
-import hotels from "../components/DummyData.json"; // Replace with DB shit
 import { useRouter } from 'next/router';
 
 export default function HotelGallery() {
-  const [isHovered, setIsHovered] = useState(false);
+  const [hotels, setHotels] = useState([]);
 
   const outerStyle = {
     marginTop: "40px",
   };
-
-  const [filters, setFilters] = useState({
-    minRatePerNight: 0,
-    maxRatePerNight: Infinity,
-  });
-
-  const handleFiltersChange = (newFilters: Partial<typeof filters>) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      ...newFilters,
-    }));
-  };
-
-  const filteredHotels = hotels.filter(
-    (hotel) =>
-      hotel.ratePerNight >= filters.minRatePerNight &&
-      hotel.ratePerNight <= filters.maxRatePerNight
-  );
 
   const router = typeof window !== 'undefined' ? useRouter() : null;
 
@@ -39,24 +20,34 @@ export default function HotelGallery() {
     });
   };
 
+  useEffect(() => {
+    const fetchHotels = async () => {
+      try {
+        // Hotels api to fetch data from postgres:
+        const res = await fetch('/api/hotels');
+        const data = await res.json();
+        console.log(data);
+        setHotels(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchHotels();
+  }, []);
+
   return (
     <Container
       maxWidth="lg"
       style={outerStyle}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
       sx={{ padding: 0 }}
     >
-      <Filter onFiltersChange={handleFiltersChange} />
-
       <Grid container spacing={0} marginBottom="80px" sx={{ width: '100%' }}>
-
-        {filteredHotels.map((hotel) => (
-          <Grid item key={hotel.name} xs={15} sm={6} md={4}>
-            <HotelCard onClick={() => handleClick(hotel.name)} hotelName={hotel.name} {...hotel} />
+        {hotels.map((hotel: any) => (
+          <Grid item key={hotel.hotelname} xs={12} sm={6} md={4}>
+            <HotelCard onClick={() => handleClick(hotel.hotelname)} hotelName={hotel.hotelname} {...hotel} />
           </Grid>
-        ))} 
-
+        ))}
       </Grid>
     </Container>
   );
