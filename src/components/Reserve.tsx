@@ -1,99 +1,203 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { Grid } from "@material-ui/core";
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import { DateRange } from 'react-date-range';
+import "react-date-range/dist/styles.css"; // main style file
+import "react-date-range/dist/theme/default.css"; // theme css file
 
-import {
-  Grid,
-  TextField,
-  Button,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-} from '@material-ui/core';
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      marginTop: theme.spacing(4),
+    },
+    form: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      marginTop: theme.spacing(2),
+    },
+    textField: {
+      margin: theme.spacing(1),
+      width: '30ch',
+    },
+    calendar: {
+      margin: theme.spacing(2),
+    },
+  }),
+);
 
-import DateFnsUtils from '@date-io/date-fns';
-import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
+const styles = {
+  reactDateRange: {
+    display: 'block',
+    fontFamily: 'Arial, sans-serif',
+    fontSize: '16px',
+    border: '1px solid #ccc',
+    marginTop: '0.5rem',
+  },
+  definedRangesWrapper: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#f5f5f5',
+    padding: '0.5rem',
+    marginBottom: '0.5rem',
+  },
+  definedRangesWrapperItem: {
+    padding: '0.25rem 0.5rem',
+    backgroundColor: '#e0e0e0',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    transition: 'background-color 0.2s ease-in-out',
+  },
+  definedRangesWrapperItemHover: {
+    backgroundColor: '#ccc',
+  },
+  dateDisplayItem: {
+    marginRight: '0.5rem',
+    fontWeight: 'bold',
+  },
+};
 
-const Reserve = () => {
-  const [guests, setGuests] = useState(1);
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [totalPrice, setTotalPrice] = useState(0);
+interface ReserveFormData {
+  fullName: string;
+  address: string;
+  sin: string;
+  creditCard: string;
+  roomNumber: string;
+  reservationDate: Date;
+}
 
-  const handleGuestsChange = (event: { target: { value: React.SetStateAction<number>; }; }) => {
-    setGuests(event.target.value);
+const ReserveComponent = () => {
+
+  const [formData, setFormData] = useState({
+    fullName: "",
+    address: "",
+    sin: "",
+    creditCard: "",
+    roomNumber: "",
+    reservationRange: {
+      startDate: new Date(),
+      endDate: new Date(),
+      key: "selection",
+    },
+  });
+
+  const handleRangeChange = (range: any) => {
+    setFormData({
+      ...formData,
+      reservationRange: range.selection,
+    });
+    console.log(formData)
   };
 
-  const handleDateChange = (date: React.SetStateAction<Date>) => {
-    setSelectedDate(date);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [event.target.name]: event.target.value,
+    });
   };
 
-  const handleReserveClick = () => {
-    // logic to reserve room
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const response = await fetch('/api/reservations', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    });
+    if (response.ok) {
+      console.log('Reservation created!');
+    } else {
+      console.error('Failed to create reservation.');
+    }
   };
 
-  const handleCalculatePrice = () => {
-    // logic to calculate total price based on number of days selected
-    const startDate = selectedDate;
-    const endDate = new Date(startDate.getTime() + guests * 86400000);
-    const days = (endDate - startDate) / 86400000;
-    setTotalPrice(days * 100); // $100 per day
-  };
+  const classes = useStyles();
 
   return (
-    <Grid container spacing={3}>
-      <Grid item xs={12} sm={6}>
-        <FormControl fullWidth>
-          <InputLabel id="guests-label">Number of guests</InputLabel>
-          <Select
-            labelId="guests-label"
-            id="guests"
-            value={guests}
-            onChange={handleGuestsChange}
-          >
-            <MenuItem value={1}>1</MenuItem>
-            <MenuItem value={2}>2</MenuItem>
-            <MenuItem value={3}>3</MenuItem>
-            <MenuItem value={4}>4</MenuItem>
-          </Select>
-        </FormControl>
-      </Grid>
-      <Grid item xs={12} sm={6}>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <KeyboardDatePicker
-            margin="normal"
-            id="date-picker-dialog"
-            label="Select dates"
-            format="MM/dd/yyyy"
-            value={selectedDate}
-            onChange={handleDateChange}
-            KeyboardButtonProps={{
-              'aria-label': 'change date',
-            }}
-          />
-        </MuiPickersUtilsProvider>
-      </Grid>
-      <Grid item xs={12}>
-        <Button variant="contained" color="primary" onClick={handleCalculatePrice}>
-          Calculate price
-        </Button>
-      </Grid>
-      <Grid item xs={12}>
-        <TextField
-          id="total-price"
-          label="Total price"
-          value={totalPrice}
-          InputProps={{
-            readOnly: true,
-          }}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <Button variant="contained" color="primary" onClick={handleReserveClick}>
-          Reserve
-        </Button>
-      </Grid>
-    </Grid>
+    <div>
+
+      <br></br>
+      <br></br>
+      <br></br>
+      <h1>Reserve a room</h1>
+
+      <form className={classes.form} onSubmit={handleSubmit}>
+        <Grid container spacing={0}>
+          <Grid item xs={4}>
+            <TextField
+              className={classes.textField}
+              label="Full name"
+              name="fullName"
+              value={formData.fullName}
+              onChange={handleChange}
+              required
+            />
+            <TextField
+              className={classes.textField}
+              label="Address"
+              name="address"
+              value={formData.address}
+              onChange={handleChange}
+              required
+            />
+            <TextField
+              className={classes.textField}
+              label="SIN"
+              name="sin"
+              value={formData.sin}
+              onChange={handleChange}
+              required
+            />
+            <TextField
+              className={classes.textField}
+              label="Credit card"
+              name="creditCard"
+              value={formData.creditCard}
+              onChange={handleChange}
+              required
+            />
+            <TextField
+              className={classes.textField}
+              label="Room number"
+              name="roomNumber"
+              value={formData.roomNumber}
+              onChange={handleChange}
+              required
+            />
+
+          </Grid>
+
+          <Grid item xs={4}>
+            <div>
+              <DateRange
+                onChange={handleRangeChange}
+                ranges={[formData.reservationRange]}
+                className="react-date-range"
+                sx={styles}
+              />
+            </div>
+          </Grid>
+          <br></br>
+
+          <Grid item xs={4}>
+            <Button type="submit" variant="contained" color="primary">
+              Reserve
+            </Button>
+          </Grid>
+        </Grid>
+      </form>
+
+      <br></br>
+      <br></br>
+    </div >
   );
 };
 
-export default Reserve;
+export default ReserveComponent;
