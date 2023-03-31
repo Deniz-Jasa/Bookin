@@ -1,5 +1,5 @@
 import { Box, Card, CardContent, CardMedia, Typography } from '@mui/material';
-import { MouseEventHandler } from 'react';
+import { MouseEventHandler, useEffect, useState } from 'react';
 
 type HotelCardProps = {
   onClick?: MouseEventHandler<HTMLDivElement>;
@@ -7,10 +7,33 @@ type HotelCardProps = {
   hotelName: string;
   city: string;
   state: string;
-  ratePerNight: number;
 };
 
-const HotelCard = ({ imageurl, hotelName, city, state, ratePerNight, onClick }: HotelCardProps) => {
+const HotelCard = ({ imageurl, hotelName, city, state, onClick }: HotelCardProps) => {
+  const [prices, setPrices] = useState([]);
+
+  // Fetch all prices of the hotel:
+  useEffect(() => {
+    const fetchPrices = async () => {
+      try {
+        const res = await fetch(`/api/startingPrices?hotelName=${hotelName}`);
+        const data = await res.json();
+        console.log(data);
+        setPrices(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchPrices();
+  }, []);
+
+  // Get the smallest price:
+  const ratePerNight = prices.reduce((min, item) => {
+    const price = parseFloat(item.price.replace(/[$,]/g, ''));
+    return price < min ? price : min;
+  }, Infinity);
+
   return (
     <Box sx={{ border: '0px solid #ccc', borderRadius: '0px', p: 2, cursor: 'pointer' }} onClick={onClick}>
       <Card>
@@ -23,7 +46,7 @@ const HotelCard = ({ imageurl, hotelName, city, state, ratePerNight, onClick }: 
             {city}, {state}
           </Typography>
           <Typography variant="body2" component="p">
-            {`$${ratePerNight} per night`}
+            {`Starting from USD $${ratePerNight} per night`}
           </Typography>
         </CardContent>
       </Card>

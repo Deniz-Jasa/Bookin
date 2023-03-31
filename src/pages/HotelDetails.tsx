@@ -3,17 +3,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from '../components/NavbarFull';
 import { useRouter } from 'next/router';
 import { Props } from 'next/script';
-import hotels from "../components/DummyData.json";
 import { Container, Button } from '@mui/material';
+import Reserve from '../components/Reserve'
 
 const HotelDetails: React.FC<Props> = () => {
 
     const router = useRouter();
     const hotelName = router.query.hotelName as string;
-
-    // Extract hotel description (Replace with DB stuff):
-    const selectedHotel = hotels.find(hotel => hotel.name === hotelName);
-    const description = selectedHotel ? selectedHotel.description : '';
 
     const handleBackButtonClick = () => {
         router.push("/");
@@ -27,13 +23,20 @@ const HotelDetails: React.FC<Props> = () => {
         boxShadow: "none",
     }
 
+    const pStyle = {
+        marginTop:"40px"
+    }
+
     return (
         <div className="hotel-details">
             <Navbar />
             <Container maxWidth="lg" sx={{marginTop:"80px"}}>
                 <Button variant="contained" onClick={handleBackButtonClick} style={buttonStyle}>Previous Page</Button>
                 <h2>{hotelName}</h2>
-                <p>{description}</p>
+
+                <p style={pStyle}>Room Options:</p>
+
+                {/* <Reserve /> */}
             </Container>
         </div>
     );

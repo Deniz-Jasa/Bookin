@@ -24,7 +24,7 @@ export default function HotelGallery() {
     const fetchHotels = async () => {
       try {
         // Hotels api to fetch data from postgres:
-        const res = await fetch('/api/hotels');
+        const res = await fetch('/api/allHotels');
         const data = await res.json();
         console.log(data);
         setHotels(data);
