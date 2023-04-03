@@ -1,0 +1,526 @@
+--Entire document can be ran in one SQL query to fully create/populate database
+
+
+--NOTE: this version of the database does not include image files for each hotel which is found in our submitted database. It will still function fully.
+
+
+
+
+
+
+
+
+
+
+create table HotelChain (chainAddress VARCHAR(20), numberOfHotels integer, contactEmail VARCHAR(20),contactNumber integer, primary key(chainAddress));
+
+
+
+
+create table hotel (starRating INTEGER, numberOfRooms INTEGER, address VARCHAR(30), contactEmail VARCHAR(30), chainAddress varchar(30), hotelName varchar(30), city varchar(30), state varchar(30),imageUrl text,
+primary key(hotelName));
+
+
+
+
+create table room (number integer ,price money, amenities text, capacity integer ,viewOrType text ,extendability boolean ,issuesOrDangers text, belongsTo varchar(40), primary key (number)  );
+
+
+
+
+
+
+create table CustomerRentingHistory ( customer_Sin int, room_number integer, dates  text, customer_fullName varchar(30),  customer_address varchar(30), foreign key (room_number)  REFERENCES room);
+
+
+
+
+create table employee (SIN integer, fullName varchar(30), address varchar(30), role varchar(20),belongsTo varchar(20),  primary key (SIN))   ;
+
+
+
+
+
+
+
+
+alter table room 
+add foreign key (belongsTo)
+REFERENCES hotel;
+
+
+
+
+alter table hotel
+Add FOREIGN KEY (chainAddress)
+REFERENCES hotelchain;
+
+
+Alter table employee
+add foreign key (belongsTo)
+REFERENCES hotel;
+
+
+
+
+
+
+-- Insert data into the HotelChain table
+
+
+INSERT INTO HotelChain (chainAddress, numberOfHotels, contactEmail, contactNumber)
+VALUES ('Chain1', 8, 'chain1@example.com', 123456789),
+       ('Chain2', 8, 'chain2@example.com', 987654321),
+       ('Chain3', 8, 'chain3@example.com', 555555555),
+       ('Chain4', 8, 'chain4@example.com', 777777777),
+       ('Chain5', 8, 'chain5@example.com', 444444444);
+
+
+-- Insert data into the hotel table for Chain1
+INSERT INTO hotel (starRating, numberOfRooms, address, contactEmail, chainAddress, hotelName, city, state, imageUrl)
+VALUES (5, 8, '1232 Main St', 'hotel1@chain1.com', 'Chain1', 'Trump Towers','New York', 'NY','https://media.cnn.com/api/v1/images/stellar/prod/180226064533-trump-tower.jpg?q=w_3000,h_2000,x_0,y_0,c_fill'),
+       (4, 5, '456 2nd Ave', 'hotel2@chain1.com', 'Chain1', 'Hilton Gardens','San Francisco', 'CA', ' '),
+       (3, 5, '789 3rd St', 'hotel3@chain1.com', 'Chain1', 'Caesars Palace', 'Las Vegas','NV', ' '),
+       (2, 5, '1010 4th Ave', 'hotel4@chain1.com', 'Chain1', 'Belmond Copacabana','Chicago', 'IL', ' '),
+       (1, 5, '1111 5th St', 'hotel5@chain1.com', 'Chain1', 'Beverly Hills Hotel','Los Angeles', 'CA', ' '),
+       (5, 5, '1212 6th Ave', 'hotel6@chain1.com', 'Chain1', 'Taj Mahal Palace','Los Angeles', 'CA', ' '),
+       (4, 5, '1313 7th St', 'hotel7@chain1.com', 'Chain1', 'The Cosmopolitan', 'Houston', 'TX', ' '),
+       (3, 5, '1414 8th Ave', 'hotel8@chain1.com', 'Chain1', 'The Grand Hyatt', 'Houston', 'TX', ' ');
+
+
+-- Insert data into the hotel table for Chain2
+INSERT INTO hotel (starRating, numberOfRooms, address, contactEmail, chainAddress, hotelName, city, state, imageurl)
+VALUES (5, 10, '1234 Main St', 'hotel1@chain2.com', 'Chain2', 'The Empire Hotel', 'New York', 'NY', ' '),
+       (4, 5, '4564 2nd Ave', 'hotel2@chain2.com', 'Chain2', 'The Ritz-Carlton', 'New York', 'NY', ' '),
+       (3, 5, '7894 3rd St', 'hotel3@chain2.com', 'Chain2', 'The Faena Hotel', 'Chicago', 'IL', ' '),
+       (2, 7, '101 4th Ave', 'hotel4@chain2.com', 'Chain2', 'The Sheraton', 'Chicago', 'IL', ' '),
+       (1, 6, '111 5th St', 'hotel5@chain2.com', 'Chain2', 'The Conrad' , 'Chicago', 'IL', ' '),
+(5, 8, '121 6th Ave', 'hotel6@chain2.com', 'Chain2', 'The Peninsula', 'Los Angeles', 'CA', ' '),
+(4, 6, '131 7th St', 'hotel7@chain2.com', 'Chain2', 'The Gansevoort', 'Houston', 'TX', ' '),
+(3, 5, '141 8th Ave', 'hotel8@chain2.com', 'Chain2', 'The Renaissance', 'Houston', 'TX', ' ');
+
+
+-- Insert data into the hotel table for Chain3
+INSERT INTO hotel (starRating, numberOfRooms, address, contactEmail, chainAddress, hotelName, city, state, imageurl)
+VALUES (5, 10, '13 Main St', 'hotel1@chain3.com', 'Chain3', 'The Paramount', 'New York', 'NY', ' ' ),
+(4, 8, '456 7nd Ave', 'hotel2@chain3.com', 'Chain3', 'The Crowne Plaza', 'New York', 'NY', ' '),
+(3, 5, '789 37rd St', 'hotel3@chain3.com', 'Chain3', 'The Montage', 'Chicago', 'IL', ' '),
+(2, 7, '1010 46th Ave', 'hotel4@chain3.com', 'Chain3', 'The Kimpton', 'Chicago', 'IL', ' '),
+(1, 6, '1111 55th St', 'hotel5@chain3.com', 'Chain3', 'The NoMad', 'Los Angeles', 'CA', ' '),
+(5, 8, '1212 64th Ave', 'hotel6@chain3.com', 'Chain3', 'The Fairmont', 'Los Angeles', 'CA', ' '),
+(4, 6, '1313 76th St', 'hotel7@chain3.com', 'Chain3', 'The Palazzo', 'Houston', 'TX', ' '),
+(3, 5, '1414 87th Ave', 'hotel8@chain3.com', 'Chain3', 'The Andaz', 'Houston', 'TX', ' ');
+
+
+
+
+-- Insert data into the hotel table for Chain4
+INSERT INTO hotel (starRating, numberOfRooms, address, contactEmail, chainAddress, hotelName, city, state, imageurl)
+VALUES (5, 10, '123 Main St', 'hotel1@chain4.com', 'Chain4', 'Claridges', 'New York', 'NY', ' '),
+(4, 8, '456 24nd Ave', 'hotel2@chain4.com', 'Chain4', 'Ryugyong Hotel', 'New York', 'NY', ' '),
+(3, 5, '789 31rd St', 'hotel3@chain4.com', 'Chain4', 'The Plaza', 'Chicago', 'IL', ' '),
+(2, 7, '1010 42th Ave', 'hotel4@chain4.com', 'Chain4', 'The Chateau Marmont', 'Chicago', 'IL', ' '),
+(1, 6, '1111 53th St', 'hotel5@chain4.com', 'Chain4', 'Fairmont Le Château', 'Los Angeles', 'CA', ' '),
+(5, 8, '1313 74th St', 'hotel6@chain4.com', 'Chain4', 'The Greenbrier', 'Houston', 'TX', ' '),
+(4, 6, '1414 85th Ave', 'hotel7@chain4.com', 'Chain4', 'Old Faithful Inn', 'Houston', 'TX', ' '),
+(3, 5, '1515 96th St', 'hotel8@chain4.com', 'Chain4', 'Mount Nelson Hotel', 'Seattle', 'WA', ' ');
+
+
+
+
+
+
+-- Insert data into the hotel table for Chain5
+INSERT INTO hotel (starRating, numberOfRooms, address, contactEmail, chainAddress, hotelName, city, state, imageurl)
+VALUES
+(4, 8, '4546 2nd Ave', 'hotel2@chain5.com', 'Chain5', 'La Mamounia', 'New York', 'NY', ' '),
+(3, 5, '789 33rd St', 'hotel3@chain5.com', 'Chain5', 'Raffles Hotel Singapore', 'Chicago', 'IL', ' '),
+(2, 7, '1010 41th Ave', 'hotel4@chain5.com', 'Chain5', 'Villa Este', 'Chicago', 'IL', ' '),
+(1, 6, '1111 50th St', 'hotel5@chain5.com', 'Chain5', 'Hotel del Cornado', 'Los Angeles', 'CA', ' '),
+(5, 8, '1313 70th St', 'hotel6@chain5.com', 'Chain5', 'The Waldorf Astoria', 'Houston', 'TX', ' '),
+(4, 6, '1414 80th Ave', 'hotel7@chain5.com', 'Chain5', 'Danubius Hotel Gellért', 'Houston', 'TX', ' '),
+(3, 5, '1515 90th St', 'hotel8@chain5.com', 'Chain5', 'Mandarin Oriental', 'Seattle', 'WA',  ''),
+(2, 5, '1616 100th Ave', 'hotel9@chain5.com', 'Chain5', 'Disney Resort', 'Seattle', 'WA', ' ');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- Insert 5 rooms into the "room" table for 5 hotels 
+INSERT INTO room (number, price, amenities, capacity, viewOrType, extendability, issuesOrDangers, belongsTo)
+VALUES
+    -- Hotel 1
+    (101, 1150.00, 'Free Wi-Fi, TV, Mini-fridge', 2, 'sea view', true, 'no', 'Trump Towers'),
+    (102, 100.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'Trump Towers'),
+    (103, 200.00, 'Free Wi-Fi, TV, Balcony', 4, 'downtown view', true, 'no', 'Trump Towers'),
+    (104, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'no', 'Trump Towers'),
+    (105, 180.00, 'Free Wi-Fi, TV, Jacuzzi', 2, 'sea view', false, 'ac broken', 'Trump Towers'),
+
+
+    -- Hotel 2
+    (201, 800.00, 'Free Wi-Fi, TV', 1, 'downtown view', false, 'no', 'Hilton Gardens'),
+    (202, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'no', 'Hilton Gardens'),
+    (203, 90.00, 'Free Wi-Fi, TV', 2, 'downtown view', true, 'no', 'Hilton Gardens'),
+    (204, 150.00, 'Free Wi-Fi, TV, Balcony', 3, 'sea view', true, 'no', 'Hilton Gardens'),
+    (205, 1000.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'Hilton Gardens'),
+
+
+    -- Hotel 3
+    (301, 2000.00, 'Free Wi-Fi, TV, Balcony', 4, 'sea view', true, 'no', 'Caesars Palace'),
+    (302, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'no', 'Caesars Palace'),
+    (303, 80.00, 'Free Wi-Fi, TV', 1, 'downtown view', false, 'no', 'Caesars Palace'),
+    (304, 150.00, 'Free Wi-Fi, TV, Mini-fridge', 2, 'mountain view', true, 'no', 'Caesars Palace'),
+    (305, 1.00, 'Free Wi-Fi, TV, Jacuzzi', 2, 'sea view', false, 'no', 'Caesars Palace'),
+
+
+    -- Hotel 4
+    (401, 12.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'no', 'Beverly Hills Hotel'),
+    (402, 90.00, 'Free Wi-Fi, TV', 2, 'downtown view', true, 'no', 'Beverly Hills Hotel'),
+    (403, 150.00, 'Free Wi-Fi, TV, Balcony', 3, 'sea view', true, 'no', 'Beverly Hills Hotel'),
+    (404, 100.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'Beverly Hills Hotel'),
+    (405, 80.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'Beverly Hills Hotel'),
+
+
+
+
+-- Hotel 5
+(501, 180.00, 'Free Wi-Fi, TV, Jacuzzi', 2, 'sea view', false, 'no', 'Taj Mahal Palace'),
+(502, 69.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'Taj Mahal Palace'),
+(503, 150.00, 'Free Wi-Fi, TV, Balcony', 3, 'downtown view', true, 'no', 'Taj Mahal Palace'),
+(504, 420.00, 'Free Wi-Fi, TV, Balcony', 4, 'sea view', true, 'no', 'Taj Mahal Palace'),
+(505, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'no', 'Taj Mahal Palace');
+
+
+-- Hotel 6
+INSERT INTO room (number, price, amenities, capacity, viewOrType, extendability, issuesOrDangers, belongsTo) VALUES 
+    (601, 150.00, 'Free Wi-Fi, TV, Balcony', 3, 'sea view', true, 'no', 'Belmond Copacabana'),
+    (602, 100.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'Belmond Copacabana'),
+    (603, 200.00, 'Free Wi-Fi, TV, Balcony', 4, 'downtown view', true, 'no', 'Belmond Copacabana'),
+    (604, 180.00, 'Free Wi-Fi, TV, Jacuzzi', 2, 'sea view', false, 'no', 'Belmond Copacabana'),
+    (605, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'ac broken', 'Belmond Copacabana'),
+
+
+
+
+-- Hotel 7
+  (10, 150.00, 'Free Wi-Fi, TV, Mini-fridge', 2, 'sea view', true, 'no', 'The Cosmopolitan'),
+    (12, 100.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'The Cosmopolitan'),
+    (13, 200.00, 'Free Wi-Fi, TV, Balcony', 4, 'downtown view', true, 'no', 'The Cosmopolitan'),
+    (14, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'no', 'The Cosmopolitan'),
+    (15, 180.00, 'Free Wi-Fi, TV, Jacuzzi', 2, 'sea view', false, 'ac broken', 'The Cosmopolitan'),
+
+
+    -- Hotel 8
+    (21, 80.00, 'Free Wi-Fi, TV', 1, 'downtown view', false, 'no', 'The Grand Hyatt'),
+    (22, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'no', 'The Grand Hyatt'),
+    (23, 90.00, 'Free Wi-Fi, TV', 2, 'downtown view', true, 'no', 'The Grand Hyatt'),
+    (24, 150.00, 'Free Wi-Fi, TV, Balcony', 3, 'sea view', true, 'no', 'The Grand Hyatt'),
+    (25, 100.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'The Grand Hyatt');
+
+
+
+
+
+
+
+
+
+
+   -- Hotel 9
+  INSERT INTO room (number, price, amenities, capacity, viewOrType, extendability, issuesOrDangers, belongsTo) VALUES 
+    (71, 180.00, 'Free Wi-Fi, TV, Jacuzzi', 2, 'sea view', false, 'no', 'The Empire Hotel'),
+    (72, 100.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'The Empire Hotel'),
+    (73, 150.00, 'Free Wi-Fi, TV, Balcony', 3, 'downtown view', true, 'no', 'The Empire Hotel'),
+    (74, 200.00, 'Free Wi-Fi, TV, Balcony', 4, 'sea view', true, 'no', 'The Empire Hotel'),
+    (75, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'no', 'The Empire Hotel');
+
+
+-- Hotel 10
+INSERT INTO room (number, price, amenities, capacity, viewOrType, extendability, issuesOrDangers, belongsTo) VALUES 
+    (81, 150.00, 'Free Wi-Fi, TV, Balcony', 3, 'sea view', true, 'no', 'The Ritz-Carlton'),
+    (82, 100.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'The Ritz-Carlton'),
+    (83, 200.00, 'Free Wi-Fi, TV, Balcony', 4, 'downtown view', true, 'no', 'The Ritz-Carlton'),
+    (84, 180.00, 'Free Wi-Fi, TV, Jacuzzi', 2, 'sea view', false, 'no', 'The Ritz-Carlton'),
+    (85, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'no', 'The Ritz-Carlton'),
+
+
+    -- Hotel 11
+    (31, 200.00, 'Free Wi-Fi, TV, Balcony', 4, 'sea view', true, 'no', 'The Faena Hotel'),
+    (32, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'no', 'The Faena Hotel'),
+    (33, 80.00, 'Free Wi-Fi, TV', 1, 'downtown view', false, 'no', 'The Faena Hotel'),
+    (34, 150.00, 'Free Wi-Fi, TV, Mini-fridge', 2, 'mountain view', true, 'no', 'The Faena Hotel'),
+    (35, 180.00, 'Free Wi-Fi, TV, Jacuzzi', 2, 'sea view', false, 'no', 'The Faena Hotel'),
+
+
+    -- Hotel 12
+    (41, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'no', 'The Sheraton'),
+    (42, 90.00, 'Free Wi-Fi, TV', 2, 'downtown view', true, 'no', 'The Sheraton'),
+    (43, 150.00, 'Free Wi-Fi, TV, Balcony', 3, 'sea view', true, 'no', 'The Sheraton'),
+    (44, 100.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'The Sheraton'),
+    (45, 80.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'The Sheraton'),
+
+
+
+
+-- Hotel 13
+(51, 180.00, 'Free Wi-Fi, TV, Jacuzzi', 2, 'sea view', false, 'no', 'The Conrad'),
+(52, 100.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'The Conrad'),
+(53, 150.00, 'Free Wi-Fi, TV, Balcony', 3, 'downtown view', true, 'no', 'The Conrad'),
+(54, 200.00, 'Free Wi-Fi, TV, Balcony', 4, 'sea view', true, 'no', 'The Conrad'),
+(55, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'no', 'The Conrad');
+
+
+-- Hotel 14
+INSERT INTO room (number, price, amenities, capacity, viewOrType, extendability, issuesOrDangers, belongsTo) VALUES 
+    (61, 150.00, 'Free Wi-Fi, TV, Balcony', 3, 'sea view', true, 'no', 'The Peninsula'),
+    (62, 100.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'The Peninsula'),
+    (63, 200.00, 'Free Wi-Fi, TV, Balcony', 4, 'downtown view', true, 'no', 'The Peninsula'),
+    (64, 180.00, 'Free Wi-Fi, TV, Jacuzzi', 2, 'sea view', false, 'no', 'The Peninsula'),
+    (65, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'ac broken', 'The Peninsula');
+
+
+-- Hotel 15
+INSERT INTO room (number, price, amenities, capacity, viewOrType, extendability, issuesOrDangers, belongsTo) VALUES 
+    (01, 180.00, 'Free Wi-Fi, TV, Jacuzzi', 2, 'sea view', false, 'no', 'The Gansevoort'),
+    (02, 100.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'The Gansevoort'),
+    (03, 150.00, 'Free Wi-Fi, TV, Balcony', 3, 'downtown view', true, 'no', 'The Gansevoort'),
+    (04, 200.00, 'Free Wi-Fi, TV, Balcony', 4, 'sea view', true, 'no', 'The Gansevoort'),
+    (05, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'no', 'The Gansevoort');
+
+
+-- Hotel 16
+INSERT INTO room (number, price, amenities, capacity, viewOrType, extendability, issuesOrDangers, belongsTo) VALUES 
+    (111, 150.00, 'Free Wi-Fi, TV, Balcony', 3, 'sea view', true, 'no', 'The Renaissance'),
+    (222, 100.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'The Renaissance'),
+    (333, 200.00, 'Free Wi-Fi, TV, Balcony', 4, 'downtown view', true, 'no', 'The Renaissance'),
+    (334, 180.00, 'Free Wi-Fi, TV, Jacuzzi', 2, 'sea view', false, 'no', 'The Renaissance'),
+    (435, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'no', 'The Renaissance'),
+
+
+    -- Hotel 17
+    (91, 150.00, 'Free Wi-Fi, TV, Mini-fridge', 2, 'sea view', true, 'no', 'The Crowne Plaza'),
+    (92, 100.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'The Crowne Plaza'),
+    (93, 200.00, 'Free Wi-Fi, TV, Balcony', 4, 'downtown view', true, 'no', 'The Crowne Plaza'),
+    (94, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'no', 'The Crowne Plaza'),
+    (95, 180.00, 'Free Wi-Fi, TV, Jacuzzi', 2, 'sea view', false, 'ac broken', 'The Crowne Plaza'),
+
+
+    -- Hotel 18
+    (821, 80.00, 'Free Wi-Fi, TV', 1, 'downtown view', false, 'no', 'The Montage'),
+    (822, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'no', 'The Montage'),
+    (823, 90.00, 'Free Wi-Fi, TV', 2, 'downtown view', true, 'no', 'The Montage'),
+    (824, 150.00, 'Free Wi-Fi, TV, Balcony', 3, 'sea view', true, 'no', 'The Montage'),
+    (825, 100.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'The Montage'),
+
+
+    -- Hotel 19
+    (721, 200.00, 'Free Wi-Fi, TV, Balcony', 4, 'sea view', true, 'no', 'The Kimpton'),
+    (722, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'no', 'The Kimpton'),
+    (723, 80.00, 'Free Wi-Fi, TV', 1, 'downtown view', false, 'no', 'The Kimpton'),
+    (724, 150.00, 'Free Wi-Fi, TV, Mini-fridge', 2, 'mountain view', true, 'no', 'The Kimpton'),
+    (725, 180.00, 'Free Wi-Fi, TV, Jacuzzi', 2, 'sea view', false, 'no', 'The Kimpton'),
+
+
+    -- Hotel 20
+    (621, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'no', 'The NoMad'),
+    (622, 90.00, 'Free Wi-Fi, TV', 2, 'downtown view', true, 'no', 'The NoMad'),
+    (623, 150.00, 'Free Wi-Fi, TV, Balcony', 3, 'sea view', true, 'no', 'The NoMad'),
+    (624, 100.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'The NoMad'),
+    (625, 80.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'The NoMad'),
+
+
+
+
+-- Hotel 21
+(521, 180.00, 'Free Wi-Fi, TV, Jacuzzi', 2, 'sea view', false, 'no', 'The Fairmont'),
+(522, 100.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'The Fairmont'),
+(523, 150.00, 'Free Wi-Fi, TV, Balcony', 3, 'downtown view', true, 'no', 'The Fairmont'),
+(524, 200.00, 'Free Wi-Fi, TV, Balcony', 4, 'sea view', true, 'no', 'The Fairmont'),
+(525, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'no', 'The Fairmont');
+
+
+-- Hotel 22
+INSERT INTO room (number, price, amenities, capacity, viewOrType, extendability, issuesOrDangers, belongsTo) VALUES 
+    (661, 150.00, 'Free Wi-Fi, TV, Balcony', 3, 'sea view', true, 'no', 'The Palazzo'),
+    (662, 100.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'The Palazzo'),
+    (663, 200.00, 'Free Wi-Fi, TV, Balcony', 4, 'downtown view', true, 'no', 'The Palazzo'),
+    (664, 180.00, 'Free Wi-Fi, TV, Jacuzzi', 2, 'sea view', false, 'no', 'The Palazzo'),
+    (665, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'ac broken', 'The Palazzo');
+
+
+-- Hotel 23
+INSERT INTO room (number, price, amenities, capacity, viewOrType, extendability, issuesOrDangers, belongsTo) VALUES 
+    (761, 180.00, 'Free Wi-Fi, TV, Jacuzzi', 2, 'sea view', false, 'no', 'The Andaz'),
+    (762, 100.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'The Andaz'),
+    (763, 150.00, 'Free Wi-Fi, TV, Balcony', 3, 'downtown view', true, 'no', 'The Andaz'),
+    (764, 200.00, 'Free Wi-Fi, TV, Balcony', 4, 'sea view', true, 'no', 'The Andaz'),
+    (765, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'no', 'The Andaz');
+
+
+-- Hotel 24
+INSERT INTO room (number, price, amenities, capacity, viewOrType, extendability, issuesOrDangers, belongsTo) VALUES 
+    (861, 150.00, 'Free Wi-Fi, TV, Balcony', 3, 'sea view', true, 'no', 'The Gansevoort'),
+    (862, 100.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'The Gansevoort'),
+    (863, 200.00, 'Free Wi-Fi, TV, Balcony', 4, 'downtown view', true, 'no', 'The Gansevoort'),
+    (864, 180.00, 'Free Wi-Fi, TV, Jacuzzi', 2, 'sea view', false, 'no', 'The Gansevoort'),
+    (865, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'no', 'The Gansevoort'),
+
+
+    -- Hotel 25
+    (161, 150.00, 'Free Wi-Fi, TV, Mini-fridge', 2, 'sea view', true, 'no', 'Claridges'),
+    (162, 100.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'Claridges'),
+    (163, 200.00, 'Free Wi-Fi, TV, Balcony', 4, 'downtown view', true, 'no', 'Claridges'),
+    (164, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'no', 'Claridges'),
+    (165, 180.00, 'Free Wi-Fi, TV, Jacuzzi', 2, 'sea view', false, 'ac broken', 'Claridges'),
+
+
+    -- Hotel 26
+    (261, 80.00, 'Free Wi-Fi, TV', 1, 'downtown view', false, 'no', 'Ryugyong Hotel'),
+    (262, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'no', 'Ryugyong Hotel'),
+    (263, 90.00, 'Free Wi-Fi, TV', 2, 'downtown view', true, 'no', 'Ryugyong Hotel'),
+    (264, 150.00, 'Free Wi-Fi, TV, Balcony', 3, 'sea view', true, 'no', 'Ryugyong Hotel'),
+    (265, 100.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'Ryugyong Hotel'),
+
+
+    -- Hotel 27
+    (361, 200.00, 'Free Wi-Fi, TV, Balcony', 4, 'sea view', true, 'no', 'The Plaza'),
+    (362, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'no', 'The Plaza'),
+    (363, 80.00, 'Free Wi-Fi, TV', 1, 'downtown view', false, 'no', 'The Plaza'),
+    (364, 150.00, 'Free Wi-Fi, TV, Mini-fridge', 2, 'mountain view', true, 'no', 'The Plaza'),
+    (365, 180.00, 'Free Wi-Fi, TV, Jacuzzi', 2, 'sea view', false, 'no', 'The Plaza'),
+
+
+    -- Hotel 28
+    (461, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'no', 'The Chateau Marmont'),
+    (462, 90.00, 'Free Wi-Fi, TV', 2, 'downtown view', true, 'no', 'The Chateau Marmont'),
+    (463, 150.00, 'Free Wi-Fi, TV, Balcony', 3, 'sea view', true, 'no', 'The Chateau Marmont'),
+    (464, 100.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'The Chateau Marmont'),
+    (465, 80.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'The Chateau Marmont'),
+
+
+
+
+-- Hotel 29
+(561, 180.00, 'Free Wi-Fi, TV, Jacuzzi', 2, 'sea view', false, 'no', 'Fairmont Le Château'),
+(562, 100.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'Fairmont Le Château'),
+(563, 150.00, 'Free Wi-Fi, TV, Balcony', 3, 'downtown view', true, 'no', 'Fairmont Le Château'),
+(564, 200.00, 'Free Wi-Fi, TV, Balcony', 4, 'sea view', true, 'no', 'Fairmont Le Château'),
+(565, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'no', 'Fairmont Le Château');
+
+
+-- Hotel 30
+INSERT INTO room (number, price, amenities, capacity, viewOrType, extendability, issuesOrDangers, belongsTo) VALUES 
+    (669, 150.00, 'Free Wi-Fi, TV, Balcony', 3, 'sea view', true, 'no', 'The Greenbrier'),
+    (672, 100.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'The Greenbrier'),
+    (673, 200.00, 'Free Wi-Fi, TV, Balcony', 4, 'downtown view', true, 'no', 'The Greenbrier'),
+    (674, 180.00, 'Free Wi-Fi, TV, Jacuzzi', 2, 'sea view', false, 'no', 'The Greenbrier'),
+    (675, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'ac broken', 'The Greenbrier');
+
+
+-- Hotel 31
+INSERT INTO room (number, price, amenities, capacity, viewOrType, extendability, issuesOrDangers, belongsTo) VALUES 
+    (791, 180.00, 'Free Wi-Fi, TV, Jacuzzi', 2, 'sea view', false, 'no', 'Old Faithful Inn'),
+    (792, 100.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'Old Faithful Inn'),
+    (793, 150.00, 'Free Wi-Fi, TV, Balcony', 3, 'downtown view', true, 'no', 'Old Faithful Inn'),
+    (794, 200.00, 'Free Wi-Fi, TV, Balcony', 4, 'sea view', true, 'no', 'Old Faithful Inn'),
+    (795, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'no', 'Old Faithful Inn');
+
+
+-- Hotel 32
+INSERT INTO room (number, price, amenities, capacity, viewOrType, extendability, issuesOrDangers, belongsTo) VALUES 
+    (801, 150.00, 'Free Wi-Fi, TV, Balcony', 3, 'sea view', true, 'no', 'Mount Nelson Hotel'),
+    (802, 100.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'Mount Nelson Hotel'),
+    (803, 200.00, 'Free Wi-Fi, TV, Balcony', 4, 'downtown view', true, 'no', 'Mount Nelson Hotel'),
+    (804, 180.00, 'Free Wi-Fi, TV, Jacuzzi', 2, 'sea view', false, 'no', 'Mount Nelson Hotel'),
+    (805, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'no', 'Mount Nelson Hotel'),
+
+
+   -- Hotel 33
+    (191, 150.00, 'Free Wi-Fi, TV, Mini-fridge', 2, 'sea view', true, 'no', 'La Mamounia'),
+    (192, 100.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'La Mamounia'),
+    (193, 200.00, 'Free Wi-Fi, TV, Balcony', 4, 'downtown view', true, 'no', 'La Mamounia'),
+    (194, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'no', 'La Mamounia'),
+    (195, 180.00, 'Free Wi-Fi, TV, Jacuzzi', 2, 'sea view', false, 'ac broken', 'La Mamounia'),
+
+
+    -- Hotel 34
+    (291, 80.00, 'Free Wi-Fi, TV', 1, 'downtown view', false, 'no', 'Raffles Hotel Singapore'),
+    (292, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'no', 'Raffles Hotel Singapore'),
+    (293, 90.00, 'Free Wi-Fi, TV', 2, 'downtown view', true, 'no', 'Raffles Hotel Singapore'),
+    (294, 150.00, 'Free Wi-Fi, TV, Balcony', 3, 'sea view', true, 'no', 'Raffles Hotel Singapore'),
+    (295, 100.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'Raffles Hotel Singapore'),
+
+
+    -- Hotel 35
+    (391, 200.00, 'Free Wi-Fi, TV, Balcony', 4, 'sea view', true, 'no', 'Villa Este'),
+    (392, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'no', 'Villa Este'),
+    (393, 80.00, 'Free Wi-Fi, TV', 1, 'downtown view', false, 'no', 'Villa Este'),
+    (394, 150.00, 'Free Wi-Fi, TV, Mini-fridge', 2, 'mountain view', true, 'no', 'Villa Este'),
+    (395, 180.00, 'Free Wi-Fi, TV, Jacuzzi', 2, 'sea view', false, 'no', 'Villa Este'),
+
+
+    -- Hotel 36
+    (491, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'no', 'Hotel del Cornado'),
+    (492, 90.00, 'Free Wi-Fi, TV', 2, 'downtown view', true, 'no', 'Hotel del Cornado'),
+    (493, 150.00, 'Free Wi-Fi, TV, Balcony', 3, 'sea view', true, 'no', 'Hotel del Cornado'),
+    (494, 100.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'Hotel del Cornado'),
+    (495, 80.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'Hotel del Cornado'),
+
+
+
+
+-- Hotel 37
+(591, 180.00, 'Free Wi-Fi, TV, Jacuzzi', 2, 'sea view', false, 'no', 'The Waldorf Astoria'),
+(592, 100.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'The Waldorf Astoria'),
+(593, 150.00, 'Free Wi-Fi, TV, Balcony', 3, 'downtown view', true, 'no', 'The Waldorf Astoria'),
+(594, 200.00, 'Free Wi-Fi, TV, Balcony', 4, 'sea view', true, 'no', 'The Waldorf Astoria'),
+(595, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'no', 'The Waldorf Astoria');
+
+
+-- Hotel 38
+INSERT INTO room (number, price, amenities, capacity, viewOrType, extendability, issuesOrDangers, belongsTo) VALUES 
+    (681, 150.00, 'Free Wi-Fi, TV, Balcony', 3, 'sea view', true, 'no', 'Danubius Hotel Gellért'),
+    (682, 100.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'Danubius Hotel Gellért'),
+    (683, 200.00, 'Free Wi-Fi, TV, Balcony', 4, 'downtown view', true, 'no', 'Danubius Hotel Gellért'),
+    (684, 180.00, 'Free Wi-Fi, TV, Jacuzzi', 2, 'sea view', false, 'no', 'Danubius Hotel Gellért'),
+    (685, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'ac broken', 'Danubius Hotel Gellért');
+
+
+-- Hotel 39
+INSERT INTO room (number, price, amenities, capacity, viewOrType, extendability, issuesOrDangers, belongsTo) VALUES 
+    (701, 180.00, 'Free Wi-Fi, TV, Jacuzzi', 2, 'sea view', false, 'no', 'Mandarin Oriental'),
+    (702, 100.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'Mandarin Oriental'),
+    (703, 150.00, 'Free Wi-Fi, TV, Balcony', 3, 'downtown view', true, 'no', 'Mandarin Oriental'),
+    (704, 200.00, 'Free Wi-Fi, TV, Balcony', 4, 'sea view', true, 'no', 'Mandarin Oriental'),
+    (705, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'no', 'Mandarin Oriental');
+
+
+-- Hotel 40
+INSERT INTO room (number, price, amenities, capacity, viewOrType, extendability, issuesOrDangers, belongsTo) VALUES 
+    (881, 150.00, 'Free Wi-Fi, TV, Balcony', 3, 'sea view', true, 'no', 'Disney Resort'),
+    (882, 100.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'Disney Resort'),
+    (883, 200.00, 'Free Wi-Fi, TV, Balcony', 4, 'downtown view', true, 'no', 'Disney Resort'),
+    (884, 180.00, 'Free Wi-Fi, TV, Jacuzzi', 2, 'sea view', false, 'no', 'Disney Resort'),
+    (885, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'no', 'Disney Resort');
+
+
+-- Hotel 41
+INSERT INTO room (number, price, amenities, capacity, viewOrType, extendability, issuesOrDangers, belongsTo) VALUES 
+    (981, 150.00, 'Free Wi-Fi, TV, Balcony', 3, 'sea view', true, 'no', 'The Paramount'),
+    (982, 100.00, 'Free Wi-Fi, TV', 1, 'mountain view', false, 'no', 'The Paramount'),
+    (983, 200.00, 'Free Wi-Fi, TV, Balcony', 4, 'downtown view', true, 'no', 'The Paramount'),
+    (984, 180.00, 'Free Wi-Fi, TV, Jacuzzi', 2, 'sea view', false, 'no', 'The Paramount'),
+    (985, 120.00, 'Free Wi-Fi, TV', 2, 'mountain view', true, 'no', 'The Paramount');
