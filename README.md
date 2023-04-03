@@ -1,19 +1,17 @@
 # Bookin - A Simple AirBnb Clone created from scratch!
 
-<img width="1794" alt="screenshot" src="https://user-images.githubusercontent.com/46465622/228425354-294daab1-141f-4991-afaa-ea766b8ec6e3.png">
+<img width="1003" alt="Screenshot 2023-04-03 at 12 41 53 AM" src="https://user-images.githubusercontent.com/46465622/229413450-28c0ce80-6499-4264-bfa0-2a11852d134e.png">
 
 
 ### Tech Stack
 
-![React](https://img.shields.io/badge/react-000000.svg?style=for-the-badge&logo=react&logoColor=white)
-![Nextjs](https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)
-![Material UI](https://img.shields.io/badge/mui-000000?style=for-the-badge&logo=mui&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-000000?style=for-the-badge&logo=PostgreSQL&logoColor=white)
+- React, Next.js, Node.js, MUI, PosgreSQL, AWS RDS, and API Routes. 
+
 
 ### Features:
 
-- Browse over 40+ (more can be added to the DB) hotel options and filter by brand, location, and stay amount/dates.
-- Fully functioning and dynamic front-end and back-end (postgreSQL - hosts hotel data).
+- Built a full stack web app from scratch that allows users to list properties for rent or vacation booking.
+- Features: Dynamic property listing from a DB (hosted on AWS) via API endpoints, user profiles, search filters, and a reservation system.
 
 
 ### Getting Started
