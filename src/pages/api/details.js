@@ -2,13 +2,13 @@ import { Client } from 'pg';
 
 export default async function handler(req, res) {
   const client = new Client({
-    host: "localhost",
+    host: "database-1.ceggncemxkaj.us-east-2.rds.amazonaws.com",
     user: "postgres",
     port: 5432,
-    password: "Aj2654816",
+    password: "Pswd#123",
     database: "postgres"
   });
-
+  
   const hotelName = req.query.hotelName;
 
   try {

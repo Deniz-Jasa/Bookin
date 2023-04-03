@@ -35,7 +35,8 @@
     "react-dom": "18.2.0",
     "react-router-dom": "^6.9.0",
     "tls": "^0.0.1",
-    "typescript": "5.0.2"
+    "typescript": "5.0.2",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@types/pg": "^8.6.6"

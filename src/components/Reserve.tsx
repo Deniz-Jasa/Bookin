@@ -6,6 +6,9 @@ import Button from '@material-ui/core/Button';
 import { DateRange } from 'react-date-range';
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
+import { useRouter } from 'next/router';
+import { v4 as uuidv4 } from 'uuid';
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -74,6 +77,9 @@ interface ReserveFormData {
 
 const ReserveComponent = () => {
 
+  const router = useRouter();
+  const hotelName = router.query.hotelName as string;
+
   const [formData, setFormData] = useState({
     fullName: "",
     address: "",
@@ -85,6 +91,7 @@ const ReserveComponent = () => {
       endDate: new Date(),
       key: "selection",
     },
+    hotelName: hotelName,
   });
 
   const handleRangeChange = (range: any) => {
@@ -92,7 +99,6 @@ const ReserveComponent = () => {
       ...formData,
       reservationRange: range.selection,
     });
-    console.log(formData)
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -103,6 +109,7 @@ const ReserveComponent = () => {
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    console.log(JSON.stringify(formData));
     event.preventDefault();
     const response = await fetch('/api/reservations', {
       method: 'POST',
@@ -112,8 +119,18 @@ const ReserveComponent = () => {
       body: JSON.stringify(formData),
     });
     if (response.ok) {
-      console.log('Reservation created!');
-    } else {
+      const { v4: uuidv4 } = require('uuid');
+      const reservationNumber = uuidv4();
+      alert('Reservation created! Your reservation number is: ' + reservationNumber);
+
+      // Email:
+      const recipient = 'denizj2828@gmail.com';
+      const subject = 'Reservation';
+      const body = 'Reservation created at ' + hotelName + '! Your reservation number is: ' + reservationNumber;
+
+      window.open(`mailto:${recipient}?subject=${subject}&body=${body}`);
+    }
+    else {
       console.error('Failed to create reservation.');
     }
   };
@@ -187,7 +204,7 @@ const ReserveComponent = () => {
           <br></br>
 
           <Grid item xs={4}>
-            <Button type="submit" variant="contained" color="primary">
+            <Button type="submit" variant="contained" color="primary" style={{backgroundColor:"#3C44CE"}}>
               Reserve
             </Button>
           </Grid>

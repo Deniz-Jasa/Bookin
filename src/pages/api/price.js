@@ -2,13 +2,13 @@ import { Client } from 'pg';
 
 export default async function handler(req, res) {
   const client = new Client({
-    host: "localhost",
-    user: "postgres",
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
     port: 5432,
-    password: "Aj2654816",
-    database: "postgres"
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
   });
-
+  
   const minPrice = req.query.minPrice;
   const maxPrice = req.query.maxPrice;
 
